@@ -7,10 +7,6 @@ function Loading(props) {
     const activePageNumber = props.activePageNumber;
     const totalNumberOfPagesInCache = props.cardCache.numberOfPages;
 
-    console.log('loading: ', loading);
-    console.log('activePageNumber: ', activePageNumber);
-    console.log('totalNumberOfPagesInCache: ', totalNumberOfPagesInCache);
-
     return (
         (
             (loading && activePageNumber <= 1) || 

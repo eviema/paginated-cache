@@ -26,7 +26,6 @@ class CardSet extends Component {
 
     const { classes } = this.props;
 
-    console.log("card set just updated and used in CardSet.js: ", this.props.activeCardSet.cardSet);
     const activeCardSet = this.props.activeCardSet.cardSet.map(card => {
       return (
         <Grid item xs={3} key={!!card && card.number}
