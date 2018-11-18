@@ -7,7 +7,7 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, action) => {
 
     switch (action.type) {
-        case Types.UPDATE_PAGE_SUCCESS: {
+        case Types.UPDATE_CARD_SET_SUCCESS: {
             return {
                 ...state,
                 cardSet: action.payload.newCardSet

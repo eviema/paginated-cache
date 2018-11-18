@@ -16,6 +16,7 @@ const styles = {
     overflow: 'hidden',
     padding: '10px',
     width: '100%',
+    height: '100%'
   },
 };
 
@@ -25,9 +26,10 @@ class CardSet extends Component {
 
     const { classes } = this.props;
 
+    console.log("card set just updated and used in CardSet.js: ", this.props.activeCardSet.cardSet);
     const activeCardSet = this.props.activeCardSet.cardSet.map(card => {
       return (
-        <Grid item xs={3} key={!!card && card.id}
+        <Grid item xs={3} key={!!card && card.number}
             onClick={() => this.props.toggleCard(card, true)}>
           {!!card && <SingleCard cardData={card} />}
         </Grid>

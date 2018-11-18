@@ -82,7 +82,7 @@ class CardDrawer extends Component {
                         onKeyDown={this.toggleDrawer}
                     >
                         <Typography variant="h6" className={classes.heading}>
-                            {activeCard.card.id}
+                            {activeCard.card.number}
                         </Typography>
                         <Table className={classes.table}>
                             <TableBody>

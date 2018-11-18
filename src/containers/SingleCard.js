@@ -8,6 +8,10 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 const styles = {
+  card: {
+    width: '100%',
+    height: '100%'
+  },
   title: {
     fontSize: 14,
   },
@@ -21,21 +25,25 @@ class SingleCard extends Component {
   render() {
     
     const { classes, cardData } = this.props;
+    const ellipsis = '...';
 
     return(
-      <Card>
+      <Card className={classes.card}>
         <CardContent>
           <Typography className={classes.title} color="textSecondary" gutterBottom>
-              {cardData.id}
+              {cardData.state}
           </Typography>
           <Typography variant="h5" component="h2">
-              {cardData.content}
+              {cardData.number}
           </Typography>
           <Typography className={classes.pos} color="textSecondary">
-              {cardData.id}
+              Application: {cardData.application}
+              <br />
+              Assignee: {cardData.assignee}
           </Typography>
           <Typography component="p">
-              {cardData.content}
+              {cardData.shortDescription.slice(0, 40)}
+              {cardData.shortDescription.length >= 40 && <span>{ellipsis}</span>}
           </Typography>
         </CardContent>
         <CardActions>

@@ -4,7 +4,8 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import { updatePageRequest } from '../actions/index';
+import { updateCardSetRequest, updateCacheRequest, updatePageNumber } 
+    from '../actions/index';
 
 const styles = theme => ({
     button: {
@@ -26,31 +27,30 @@ class Paginator extends Component {
         super(props);
 
         this.state = {
-            activeCardSet: this.props.activeCardSet || [],
             cardsPerPage: 12,
-            activePageNumber: this.props.activePageNumber.pageNumber,
         };
     }
 
     handleBackButtonClick = (event, newPageNumber) => {
-        this.setState({ 
-            activePageNumber: newPageNumber,
-        });
-        this.props.updatePageRequest(newPageNumber);
+        this.props.updatePageNumber(newPageNumber);
+        this.props.updateCardSetRequest(newPageNumber);        
     };
 
     handleNextButtonClick = (event, newPageNumber) => {
-        this.setState({ 
-            activePageNumber: newPageNumber,
-        });
-        this.props.updatePageRequest(newPageNumber);
+        this.props.updatePageNumber(newPageNumber);
+        this.props.updateCardSetRequest(newPageNumber);        
+        
+        let totalNumberOfPagesInCache = this.props.cardCache.numberOfPages;
+        if (newPageNumber + 1 === totalNumberOfPagesInCache) {
+            this.props.updateCacheRequest();
+        }
     };
 
 
     render() {
         
         const { classes } = this.props;
-        const { activePageNumber } = this.state;
+        const activePageNumber = this.props.activePageNumber;
         const totalNumberOfPagesInCache = this.props.cardCache.numberOfPages;
 
         return(
@@ -94,7 +94,10 @@ function mapStateToProps({ activePageNumber, cardCache }) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ updatePageRequest }, dispatch);
+    return bindActionCreators(
+        { updateCardSetRequest, updateCacheRequest, updatePageNumber }, 
+        dispatch
+    );
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Paginator));

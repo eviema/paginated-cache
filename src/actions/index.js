@@ -3,9 +3,14 @@ export const Types = {
     FETCH_INIT_CACHE_REQUEST: 'fetch_init_cache_request',
     FETCH_INIT_CACHE_SUCCESS: 'fetch_init_cache_success',
     TOGGLE_CARD: 'toggle_card',
-    UPDATE_PAGE_REQUEST: 'update_page_request',
-    UPDATE_PAGE_SUCCESS: 'update_page_success',
-    UPDATE_CACHE: 'update_cache',
+    UPDATE_CARD_SET_REQUEST: 'update_card_set_request',
+    UPDATE_CARD_SET_SUCCESS: 'update_card_set_success',
+    UPDATE_PAGE_NUMBER: 'update_page_number',
+    UPDATE_CACHE_REQUEST: 'update_cache_request',
+    UPDATE_CACHE_SUCCESS: 'update_cache_success',
+    INFORM_CACHING_ERROR: 'inform_caching_error',
+    // START_LOADING: 'start_loading',
+    // STOP_LOADING: 'stop_loading',
 };
 
 export const fetchInitCacheRequest = () => ({
@@ -30,32 +35,66 @@ export const toggleCard = (card, isSelected) => ({
     }
 });
 
-export function updatePageRequest(newPageNumber) {
+export function updateCardSetRequest(newPageNumber) {
 
     return {
-        type: Types.UPDATE_PAGE_REQUEST,
+        type: Types.UPDATE_CARD_SET_REQUEST,
         payload: { 
             newPageNumber,
         }
     };
 };
 
-export function updatePageSuccess(newCardSet) {
+export function updateCardSetSuccess(newCardSet) {
 
     return {
-        type: Types.UPDATE_PAGE_SUCCESS,
+        type: Types.UPDATE_CARD_SET_SUCCESS,
         payload: { 
             newCardSet,
         }
     };
 };
 
-export function updateCache(newCache) {
+export function updatePageNumber(newPageNumber) {
+    return {
+        type: Types.UPDATE_PAGE_NUMBER,
+        payload: {
+            newPageNumber
+        }
+    }
+}
+
+export function updateCacheRequest() {
+    return {
+        type: Types.UPDATE_CACHE_REQUEST,
+    }
+};
+
+export function updateCacheSuccess(newCache) {
 
     return {
-        type: Types.UPDATE_CACHE,
+        type: Types.UPDATE_CACHE_SUCCESS,
         payload: { 
             newCache,
         }
     };
 };
+
+export const informCachingError = ({error}) => ({
+    type: Types.INFORM_CACHING_ERROR,
+    payload: {
+        error
+    }
+});
+
+// export function startLoading() {
+//     return {
+//         type: Types.START_LOADING,
+//     }
+// }
+
+// export function stopLoading() {
+//     return {
+//         type: Types.STOP_LOADING,
+//     }
+// }

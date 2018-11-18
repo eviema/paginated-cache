@@ -28,26 +28,31 @@ class App extends Component {
     componentDidMount() {
         
         if (this.props.cardCache.cache.length === 0)
-            this.props.fetchInitCacheRequest();        
+            this.props.fetchInitCacheRequest();         
     }
 
     render() {
 
-        const { classes, activeCard, activeCardSet } = this.props;
+        const { classes, activeCard, activeCardSet, activePageNumber, loading } = this.props;
+        const totalNumberOfPagesInCache = this.props.cardCache.numberOfPages;
 
-        let renderCardSet = false;
+        const isTimeToRenderLoading = (loading && activePageNumber <= 1) || 
+            (loading && activePageNumber - 1 === totalNumberOfPagesInCache);
+        
+        let isTimeToRenderCardSet = false;
         if ( activeCardSet !== undefined ) {
-            if ( activeCardSet.cardSet.length !== 0) {
-                renderCardSet = true;
+            if ( activeCardSet.cardSet.length !== 0 && !isTimeToRenderLoading) {
+                isTimeToRenderCardSet = true;
             }
         }
+
         
         
         return (
             <Paper className={classes.root} elevation={1}>
-                <Loading />
-                { renderCardSet && <CardSet /> }
-                <Paginator />
+                { isTimeToRenderLoading && <Loading /> }                 
+                { isTimeToRenderCardSet && <CardSet /> }
+                { !isTimeToRenderLoading && <Paginator /> }  
                 {!!activeCard && <CardDrawer />}
             </Paper>
         );
@@ -58,8 +63,8 @@ App.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-function mapStateToProps({ activeCard, cardCache, activeCardSet }) { 
-    return { activeCard, cardCache, activeCardSet };
+function mapStateToProps({ activeCard, cardCache, activeCardSet, activePageNumber, loading }) { 
+    return { activeCard, cardCache, activeCardSet, activePageNumber, loading };
 } 
 
 function mapDispatchToProps(dispatch) {
