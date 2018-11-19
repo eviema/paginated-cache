@@ -44,8 +44,6 @@ class CardDrawer extends Component {
         if (!activeCard.isSelected) {
             return <div></div>;
         }
-
-        // later may need to loop through a subset of keys in real data
         
         const cardDetailRows = Object.keys(activeCard.card).map(key => {
             return { [key]: activeCard.card[key]};
