@@ -7,7 +7,7 @@ import rootSaga from './sagas/index';
 import { logger } from 'redux-logger';
 import axios from 'axios';
 import { PARAMS } from './api/params';
-import App from './components/App';
+import App from './containers/App';
 import reducers from './reducers';
 
 axios.defaults.baseURL = PARAMS.baseUrl;
