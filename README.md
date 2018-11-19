@@ -5,6 +5,31 @@ This front-end app displays a set of cards on each page, allows a user to see th
 
 Featuring local cache, this app provides seamless pagination as well as a loading indication when the page requested is being cached. 
 
+### Instructions to run the app locally
+
+- Change to your working directory, for example,
+`$ cd projects`
+
+- Clone and go to this repository
+`$ git clone https://github.com/eviema/paginated-cache.git`
+`$ cd paginated-cache`
+
+- Install dependencies
+`$ npm install`
+
+- Run the app in the development mode
+`$ npm start`
+
+You will now be directed to [http://localhost:3000](http://localhost:3000) to view the app in the browser.
+
+The page will reload if you make edits.
+
+You will also see any lint errors in the console.
+
+To launch the test runner in the interactive watch mode, run `npm test`.
+
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+
 ### Technology stack
 - Create React App
 - Material UI
@@ -140,27 +165,6 @@ Fetching data occurs right before caching takes place.
 On initial load, an action creator will be called to initialise cache. A watcher saga intercepts the action returned, and a paird worker saga fetches 4 pages of cards (i.e. 48 cards) via an API call. The API call uses `axios` with configured parameters (e.g. page = 0, perPage = 48). After the response is received, the actual data inside will be extracted, processed and passed to another action creator for initial caching. 
 
 For each subsequent caching request, 8 pages of cards are fetched in the worker saga via two API calls, with configured parameters (e.g. page = 1, perPage = 48; page = 2, perPage = 48). Relevant card data in the response will then be extracted, processed and passed to another action creator for a cache update. 
-
-### Instructions to run the app locally
-
-Within your command line environment, change to the project directory.
-
-To run the app in the development mode, run
-
-##### `npm start`
-
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.
-
-You will also see any lint errors in the console.
-
-To launch the test runner in the interactive watch mode, run
-
-##### `npm test`
-
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
 
 ### Total time taken to build the app
 
