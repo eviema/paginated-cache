@@ -26,7 +26,7 @@ class CardSet extends Component {
 
     const { classes } = this.props;
 
-    const activeCardSet = this.props.activeCardSet.map(card => {
+    const renderActiveCardSet = this.props.activeCardSet.map(card => {
       return (
         <Grid item xs={3} key={!!card && card.number}
             onClick={() => this.props.toggleCard(card, true)}>
@@ -38,8 +38,8 @@ class CardSet extends Component {
 
 
     return (
-      <div className={classes.container}>
-        <Grid container spacing={8} children={ activeCardSet } /> 
+      <div className={classes.container} id="card-set">
+        <Grid container spacing={8} children={ renderActiveCardSet } /> 
       </div>
     );
   }

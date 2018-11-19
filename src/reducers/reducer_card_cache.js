@@ -3,6 +3,7 @@ import { Types } from '../actions/index';
 const INITIAL_STATE = {
     cache: [],
     numberOfPages: 0,
+    error: ''
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -31,9 +32,8 @@ export default (state = INITIAL_STATE, action) => {
         }
         case Types.UPDATE_CACHE_SUCCESS: {
             
-            const nextCacheToMerge = action.payload.nextCacheToMerge;
+            const nextCacheToMerge = action.payload;
             const newCache = [...state.cache, ...nextCacheToMerge];
-            console.log(newCache);
             const numberOfPages = Math.ceil(newCache.length / 12);
             
             return { 
@@ -43,10 +43,10 @@ export default (state = INITIAL_STATE, action) => {
             };  
         }
         case Types.INFORM_CACHING_ERROR: {
-            console.log(action.payload.error);
+            // console.log(action.payload);
             return {
                 ...state,
-                error: action.payload.error
+                error: action.payload
             }
         }
         default:

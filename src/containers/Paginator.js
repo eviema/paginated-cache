@@ -54,7 +54,7 @@ class Paginator extends Component {
         const lastPageNumber = this.props.pageNumbers.lastPageNumber;
 
         return(
-            <div className={classes.paginatorContainer}>
+            <div className={classes.paginatorContainer} id="paginator">
                 <Button color="primary" className={classes.button}
                     disabled={activePageNumber === 1}
                     onClick={(e) => 

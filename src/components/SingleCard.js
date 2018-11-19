@@ -36,7 +36,7 @@ function SingleCard(props) {
   const ellipsis = '...';
 
   return(
-    <Card className={classes.card}>
+    <Card className={classes.card} id="card">
       <CardContent>
         <Typography className={classes.state} color="textSecondary" gutterBottom>
             {cardData.state}

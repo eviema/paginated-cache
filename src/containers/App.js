@@ -48,9 +48,8 @@ class App extends Component {
         }
 
         
-        
         return (
-            <Paper className={classes.root} elevation={1}>
+            <Paper className={classes.root} id="paper" elevation={1}>
                 { isTimeToRenderLoading && <Loading /> }                 
                 { isTimeToRenderCardSet && <CardSet /> }
                 { !isTimeToRenderLoading && <Paginator /> }  

@@ -65,7 +65,7 @@ class CardDrawer extends Component {
         
         return (
             <div>
-                <Drawer anchor="right" 
+                <Drawer anchor="right" id="drawer"
                         open={this.props.activeCard.isSelected} 
                         onClose={this.toggleDrawer}>
                     <div className={classes.drawerHeader}>

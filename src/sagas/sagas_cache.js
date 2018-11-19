@@ -7,7 +7,7 @@ import * as api from '../api/cache';
 // worker saga to update active card set
 function* updateCardSet(action) {
 
-    const newPageNumber = action.payload.newPageNumber;
+    const newPageNumber = action.payload;
 
     const getCache = (state) => state.cardCache;
     const currentCache = yield select(getCache);

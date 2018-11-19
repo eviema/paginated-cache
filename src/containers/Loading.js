@@ -12,7 +12,7 @@ function Loading(props) {
             (loading && activePageNumber <= 1) || 
             (loading && activePageNumber - 1 === totalNumberOfPagesInCache)
         ) ? 
-        <div style={{ textAlign: 'center' }}>
+        <div style={{ textAlign: 'center' }} id="loading">
             <img src={img} alt='loading' />
             <h1>LOADING</h1>
         </div> :

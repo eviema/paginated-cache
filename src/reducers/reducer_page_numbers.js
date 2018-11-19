@@ -11,12 +11,12 @@ export default (state = INITIAL_STATE, action) => {
         case Types.UPDATE_ACTIVE_PAGE_NUMBER: 
             return { 
                 ...state, 
-                activePageNumber: action.payload.newPageNumber,
+                activePageNumber: action.payload,
             };             
         case Types.SET_LAST_PAGE_NUMBER: 
             return { 
                 ...state, 
-                lastPageNumber: action.payload.lastPageNumber,
+                lastPageNumber: action.payload,
             }   
         default:
             return state;
