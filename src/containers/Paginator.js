@@ -15,9 +15,7 @@ const styles = theme => ({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        position: 'fixed',
-        bottom: '0',
-        marginBottom: '24px',
+        margin: '0 0 72px 0',
     }
 });
 
@@ -57,13 +55,8 @@ class Paginator extends Component {
             <div className={classes.paginatorContainer} id="paginator">
                 <Button color="primary" className={classes.button}
                     disabled={activePageNumber === 1}
-                    onClick={(e) => 
-                        this.handleBackButtonClick(
-                            e, 
-                            activePageNumber - 1
-                        )
-                    }
-                >
+                    onClick={(e) => this.handleBackButtonClick( e, 
+                            activePageNumber - 1 )} >
                     BACK
                 </Button>
                 <div>
@@ -71,13 +64,8 @@ class Paginator extends Component {
                 </div>
                 <Button color="primary" className={classes.button}
                     disabled={activePageNumber === {lastPageNumber}}
-                    onClick={(e) => 
-                        this.handleNextButtonClick(
-                            e, 
-                            activePageNumber + 1
-                        )
-                    }
-                >
+                    onClick={(e) => this.handleNextButtonClick( e, 
+                            activePageNumber + 1 )} >
                     NEXT
                 </Button>
             </div>

@@ -71,7 +71,6 @@ function* updateCache(){
         );
         const nextCacheToMerge = nextCacheToMergePending.map(card => {
             
-            // TODO: repeated code: move out as separate logic
             const coreData = card.coreData,
                 serviceData = card.serviceData;
 

@@ -57,9 +57,7 @@ class CardDrawer extends Component {
 
             return (
                 <TableRow key={key}>
-                    <TableCell component="th" scope="row">
-                        {key}
-                    </TableCell>
+                    <TableCell component="th" scope="row">{key}</TableCell>
                     <TableCell>{value}</TableCell>
                 </TableRow>
             );
@@ -76,18 +74,14 @@ class CardDrawer extends Component {
                         </IconButton>
                     </div>
                     <div
-                        tabIndex={0}
-                        role="button"
+                        tabIndex={0} role="button"
                         onClick={this.toggleDrawer}
-                        onKeyDown={this.toggleDrawer}
-                    >
+                        onKeyDown={this.toggleDrawer}>
                         <Typography variant="h6" className={classes.heading}>
                             {activeCard.card.number}
                         </Typography>
                         <Table className={classes.table}>
-                            <TableBody>
-                                {cardDetails}
-                            </TableBody>
+                            <TableBody>{cardDetails}</TableBody>
                         </Table>
                     </div>
                 </Drawer>

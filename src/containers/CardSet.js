@@ -13,10 +13,8 @@ const styles = {
     flexGrow: 1,
     alignItems: 'flex-start',
     justifyContent: 'space-around',
-    overflow: 'hidden',
     padding: '10px',
-    width: '100%',
-    height: '100%',
+    width: '95%',
   },
 };
 

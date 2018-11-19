@@ -13,15 +13,16 @@ const styles = {
     height: '100%',
     position: 'relative',
   },
-  state: {
-    fontSize: 14,
-  },
-  app_assignee: {
-    marginBottom: 12,
-  },
-  shortDesc: {
+  state: { fontSize: 14 },
+  app_assignee: { marginBottom: 12 },
+  shortDesc: { marginBottom: 30 },
+  ellipsis: {
     overflow: 'hidden',
-    marginBottom: 30,
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    display:'block',
+    width:'100%',
+    minWidth:'1px',
   },
   cardActions: {
     position: "absolute",
@@ -33,7 +34,6 @@ const styles = {
 function SingleCard(props) {
 
   const { classes, cardData } = props;
-  const ellipsis = '...';
 
   return(
     <Card className={classes.card} id="card">
@@ -44,14 +44,13 @@ function SingleCard(props) {
         <Typography variant="h5" component="h2">
             {cardData.number}
         </Typography>
-        <Typography className={classes.app_assignee} color="textSecondary">
+        <Typography className={`${classes.app_assignee} ${classes.ellipsis}`} color="textSecondary">
             Application: {cardData.application}
             <br />
             Assignee: {cardData.assignee}
         </Typography>
-        <Typography className={classes.shortDesc} component="p">
-            {cardData.shortDescription.slice(0, 40)}
-            {cardData.shortDescription.length >= 40 && <span>{ellipsis}</span>}
+        <Typography className={`${classes.shortDesc} ${classes.ellipsis}`} component="p">
+            {cardData.shortDescription}
         </Typography>
       </CardContent>
       <CardActions className={classes.cardActions}>
