@@ -7,21 +7,21 @@ Featuring local cache, this app provides seamless pagination as well as a loadin
 
 ### Instructions to run the app locally
 
-##### Change to your working directory, for example,
+#### Change to your working directory, for example,
 
 `$ cd projects`
 
-##### Clone and go to this repository
+#### Clone and go to this repository
 
 `$ git clone https://github.com/eviema/paginated-cache.git`
 
 `$ cd paginated-cache`
 
-##### Install dependencies
+#### Install dependencies
 
 `$ npm install`
 
-##### Run the app in the development mode
+#### Run the app in the development mode
 `$ npm start`
 
 You will now be directed to [http://localhost:3000](http://localhost:3000) to view the app in the browser.
