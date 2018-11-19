@@ -76,12 +76,12 @@ export function updateCacheRequest() {
     }
 };
 
-export function updateCacheSuccess(newCache) {
+export function updateCacheSuccess(nextCacheToMerge) {
 
     return {
         type: Types.UPDATE_CACHE_SUCCESS,
         payload: { 
-            newCache,
+            nextCacheToMerge,
         }
     };
 };

@@ -31,7 +31,9 @@ export default (state = INITIAL_STATE, action) => {
         }
         case Types.UPDATE_CACHE_SUCCESS: {
             
-            const newCache = action.payload.newCache;
+            const nextCacheToMerge = action.payload.nextCacheToMerge;
+            const newCache = [...state.cache, ...nextCacheToMerge];
+            console.log(newCache);
             const numberOfPages = Math.ceil(newCache.length / 12);
             
             return { 
