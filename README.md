@@ -112,13 +112,10 @@ Featuring local cache, this app provides seamless pagination as well as a loadin
         <li>index.js</li>
         <li>sagas_cache.js</li>
     </ul>
-</details>
-
-index.js
-
-Root.js
-
-setupTests.js
+</details>   
+index.js   
+Root.js   
+setupTests.js   
 
 ### Data fetching and caching
 
