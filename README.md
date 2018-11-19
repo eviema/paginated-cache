@@ -115,7 +115,9 @@ Featuring local cache, this app provides seamless pagination as well as a loadin
 </details>
 
 index.js
+
 Root.js
+
 setupTests.js
 
 ### Data fetching and caching
@@ -143,12 +145,11 @@ For each subsequent caching request, 8 pages of cards are fetched in the worker 
 
 ### Instructions to run the app locally
 
-Open your command line environment, go to the project directory, then type
+Within your command line environment, change to the project directory.
 
+To run the app in the development mode, run
 
 ##### `npm start`
-
-to run the app in the development mode.
 
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
@@ -156,13 +157,9 @@ The page will reload if you make edits.
 
 You will also see any lint errors in the console.
 
-<br />
-
-You can also type
+To launch the test runner in the interactive watch mode, run
 
 ##### `npm test`
-
-to launch the test runner in the interactive watch mode.
 
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
