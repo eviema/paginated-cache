@@ -115,9 +115,7 @@ Featuring local cache, this app provides seamless pagination as well as a loadin
 </details>
 
 index.js
-
 Root.js
-
 setupTests.js
 
 ### Data fetching and caching
