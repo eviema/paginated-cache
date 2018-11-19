@@ -4,22 +4,6 @@ import * as actions from '../actions/index';
 import * as api from '../api/cache';
 
 
-// function* updatePageNumber(action) {
-    
-//     const getLoadingStatus = (state) => state.loading;
-//     const loading = yield select(getLoadingStatus);
-
-//     if (loading) {
-//         // stop updating page number if loading (initial or subsequent updates)
-//     }
-
-    
-// }
-
-// function* watchUpdatePageNumber() {
-//     yield takeEvery(actions.Types.UPDATE_PAGE_NUMBER, updatePageNumber);
-// }
-
 // worker saga to update active card set
 function* updateCardSet(action) {
 
@@ -164,7 +148,6 @@ function* watchInitCache(){
 }
 
 const cacheSagas = [
-    // fork(watchUpdatePageNumber),
     fork(watchUpdateCardSet),
     fork(watchUpdateCache),
     fork(watchInitCache),

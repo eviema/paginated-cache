@@ -9,8 +9,6 @@ export const Types = {
     UPDATE_CACHE_REQUEST: 'update_cache_request',
     UPDATE_CACHE_SUCCESS: 'update_cache_success',
     INFORM_CACHING_ERROR: 'inform_caching_error',
-    // START_LOADING: 'start_loading',
-    // STOP_LOADING: 'stop_loading',
 };
 
 export const fetchInitCacheRequest = () => ({
@@ -87,14 +85,3 @@ export const informCachingError = ({error}) => ({
     }
 });
 
-// export function startLoading() {
-//     return {
-//         type: Types.START_LOADING,
-//     }
-// }
-
-// export function stopLoading() {
-//     return {
-//         type: Types.STOP_LOADING,
-//     }
-// }
