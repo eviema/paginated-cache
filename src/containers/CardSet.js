@@ -16,7 +16,7 @@ const styles = {
     overflow: 'hidden',
     padding: '10px',
     width: '100%',
-    height: '100%'
+    height: '100%',
   },
 };
 
@@ -38,7 +38,7 @@ class CardSet extends Component {
 
 
     return (
-      <div className={classes.root}>
+      <div className={classes.container}>
         <Grid container spacing={8} children={ activeCardSet } /> 
       </div>
     );
