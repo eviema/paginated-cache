@@ -71,7 +71,7 @@ function* updateCache(){
         );
         const nextCacheToMerge = nextCacheToMergePending.map(card => {
             
-            // repeated code: move out as separate logic
+            // TODO: repeated code: move out as separate logic
             const coreData = card.coreData,
                 serviceData = card.serviceData;
 
@@ -90,8 +90,7 @@ function* updateCache(){
                 };
         });
         
-        const newCache = currentCache.cache.concat(nextCacheToMerge);
-        yield put(actions.updateCacheSuccess(newCache));
+        yield put(actions.updateCacheSuccess(nextCacheToMerge));
         yield put(actions.updateCardSetRequest(activePageNumber));
     } 
     catch (e) {
@@ -113,6 +112,7 @@ function* fetchInitCache(){
     try {
         const initCacheResponse = yield call(api.getInitCache);
         let initCache = initCacheResponse.data;
+        
         initCache = initCache.map(card => {
             const coreData = card.coreData,
                   serviceData = card.serviceData;

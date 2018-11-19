@@ -57,9 +57,7 @@ export function updateCardSetSuccess(newCardSet) {
 
     return {
         type: Types.UPDATE_CARD_SET_SUCCESS,
-        payload: { 
-            newCardSet,
-        }
+        payload: newCardSet
     };
 };
 

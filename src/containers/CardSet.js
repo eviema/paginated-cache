@@ -4,11 +4,11 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import SingleCard from './SingleCard';
+import SingleCard from '../components/SingleCard';
 import { toggleCard } from '../actions/index';
 
 const styles = {
-  root: {
+  container: {
     display: 'flex',
     flexGrow: 1,
     alignItems: 'flex-start',
@@ -26,7 +26,7 @@ class CardSet extends Component {
 
     const { classes } = this.props;
 
-    const activeCardSet = this.props.activeCardSet.cardSet.map(card => {
+    const activeCardSet = this.props.activeCardSet.map(card => {
       return (
         <Grid item xs={3} key={!!card && card.number}
             onClick={() => this.props.toggleCard(card, true)}>
