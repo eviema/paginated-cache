@@ -4,7 +4,7 @@ import img from '../assets/loading_spinner.gif'
 
 function Loading(props) {
     const loading = props.loading;
-    const activePageNumber = props.activePageNumber;
+    const activePageNumber = props.pageNumbers.activePageNumber;
     const totalNumberOfPagesInCache = props.cardCache.numberOfPages;
 
     return (
@@ -21,9 +21,8 @@ function Loading(props) {
 
 }
 
-function mapStateToProps({ loading, activePageNumber, cardCache }) { 
-    return { loading, activePageNumber, cardCache };
+function mapStateToProps({ loading, pageNumbers, cardCache }) { 
+    return { loading, pageNumbers, cardCache };
 }
-// const mapStateToProps = (state) => ({ loading });
 
 export default connect(mapStateToProps)(Loading);

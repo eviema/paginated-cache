@@ -50,7 +50,7 @@ function* updateCache(){
     const currentCache = yield select(getCache);
     const currentCacheLength = currentCache.cache.lenth;
 
-    const getActivePageNumber = (state) => state.activePageNumber;
+    const getActivePageNumber = (state) => state.pageNumbers.activePageNumber;
     const activePageNumber = yield select(getActivePageNumber);
 
     try {        
@@ -134,7 +134,14 @@ function* fetchInitCache(){
 
         const initCardSet = initCache.slice(0, 12);
         yield put(actions.fetchInitCacheSuccess(initCache, initCardSet));
-        yield put(actions.updatePageNumber(1));
+        
+        const totalCountOfCardsInEndpoint = initCacheResponse.headers["x-total-count"];
+        const totalNumberOfPagesInEndpoint = Math.ceil(totalCountOfCardsInEndpoint / 12)
+        
+        yield put(actions.updateActivePageNumber(1));
+        yield put(actions.setLastPageNumber(totalNumberOfPagesInEndpoint));
+
+
    } catch(e) {
        yield put(actions.informCachingError({
            error: 'An error occurred when trying to fetch initial data.'

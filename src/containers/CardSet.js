@@ -49,8 +49,8 @@ CardSet.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-function mapStateToProps({ activeCardSet, activePageNumber }) { 
-  return { activeCardSet, activePageNumber };
+function mapStateToProps({ activeCardSet, pageNumbers }) { 
+  return { activeCardSet, pageNumbers };
 } 
 
 function mapDispatchToProps(dispatch) {

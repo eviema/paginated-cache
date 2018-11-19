@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import { updateCardSetRequest, updateCacheRequest, updatePageNumber } 
+import { updateCardSetRequest, updateCacheRequest, updateActivePageNumber } 
     from '../actions/index';
 
 const styles = theme => ({
@@ -32,12 +32,12 @@ class Paginator extends Component {
     }
 
     handleBackButtonClick = (event, newPageNumber) => {
-        this.props.updatePageNumber(newPageNumber);
+        this.props.updateActivePageNumber(newPageNumber);
         this.props.updateCardSetRequest(newPageNumber);        
     };
 
     handleNextButtonClick = (event, newPageNumber) => {
-        this.props.updatePageNumber(newPageNumber);
+        this.props.updateActivePageNumber(newPageNumber);
         this.props.updateCardSetRequest(newPageNumber);        
         
         let totalNumberOfPagesInCache = this.props.cardCache.numberOfPages;
@@ -50,8 +50,8 @@ class Paginator extends Component {
     render() {
         
         const { classes } = this.props;
-        const activePageNumber = this.props.activePageNumber;
-        const totalNumberOfPagesInCache = this.props.cardCache.numberOfPages;
+        const activePageNumber = this.props.pageNumbers.activePageNumber;
+        const lastPageNumber = this.props.pageNumbers.lastPageNumber;
 
         return(
             <div className={classes.paginatorContainer}>
@@ -67,10 +67,10 @@ class Paginator extends Component {
                     BACK
                 </Button>
                 <div>
-                    Page {activePageNumber} of {totalNumberOfPagesInCache}
+                    Page {activePageNumber} of {lastPageNumber}
                 </div>
                 <Button color="primary" className={classes.button}
-                    disabled={activePageNumber === {totalNumberOfPagesInCache}}
+                    disabled={activePageNumber === {lastPageNumber}}
                     onClick={(e) => 
                         this.handleNextButtonClick(
                             e, 
@@ -89,13 +89,13 @@ Paginator.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-function mapStateToProps({ activePageNumber, cardCache }) { 
-    return { activePageNumber, cardCache };
+function mapStateToProps({ pageNumbers, cardCache }) { 
+    return { pageNumbers, cardCache };
 }
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators(
-        { updateCardSetRequest, updateCacheRequest, updatePageNumber }, 
+        { updateCardSetRequest, updateCacheRequest, updateActivePageNumber }, 
         dispatch
     );
 }
