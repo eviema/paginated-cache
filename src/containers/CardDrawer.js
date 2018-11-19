@@ -39,6 +39,8 @@ class CardDrawer extends Component {
 
     render() {
 
+        window.__MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__ = true;
+        
         const { classes, activeCard } = this.props;
 
         if (!activeCard.isSelected) {
