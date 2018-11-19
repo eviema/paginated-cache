@@ -1,11 +1,11 @@
 
-## paginated-cache
+# paginated-cache   
 
 This front-end app displays a set of cards on each page, allows a user to see the previous or next page of cards by clicking on a button, and shows the details of a specific card when a user clicks on it. 
 
 Featuring local cache, this app provides seamless pagination as well as a loading indication when the page requested is being cached. 
 
-### Instructions to run the app locally
+## Instructions to run the app locally
 
 #### Change to your working directory, for example,
 
@@ -36,14 +36,14 @@ To launch the test runner in the interactive watch mode, run
 
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### Technology stack
+## Technology stack
 - Create React App
 - Material UI
 - Redux
 - Redux Saga
 - Enzyme + Jest
 
-### /src structure
+## /src structure
 
 <details>
     <summary>/actions</summary>
@@ -149,7 +149,7 @@ index.js
 Root.js   
 setupTests.js   
 
-### Data fetching and caching
+## Data fetching and caching
 
 ![Diagram of fetching and caching on initial load](./init_fetch_cache.png)
 ![Diagram of fetching and caching on subsequent requests](./update_fetch_cache.png)
@@ -172,7 +172,7 @@ On initial load, an action creator will be called to initialise cache. A watcher
 
 For each subsequent caching request, 8 pages of cards are fetched in the worker saga via two API calls, with configured parameters (e.g. page = 1, perPage = 48; page = 2, perPage = 48). Relevant card data in the response will then be extracted, processed and passed to another action creator for a cache update. 
 
-### Total time taken to build the app
+## Total time taken to build the app
 
 34 hours, including:
 - 2 hours on initial analysis and design,
