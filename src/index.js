@@ -4,11 +4,9 @@ import Root from './Root';
 import App from './containers/App';
 
 import axios from 'axios';
-import { PARAMS } from './api/params';
 
-
-axios.defaults.baseURL = PARAMS.baseUrl;
-axios.defaults.headers.common['apiToken'] = PARAMS.apiToken;
+axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
+axios.defaults.headers.common['apiToken'] = process.env.REACT_APP_API_TOKEN;
 
 ReactDOM.render(
   <Root>
