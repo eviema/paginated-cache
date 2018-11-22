@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
@@ -19,58 +19,46 @@ const styles = theme => ({
     }
 });
 
-class Paginator extends Component {
+const handleBackButtonClick = (props, newPageNumber) => {
+    props.updateActivePageNumber(newPageNumber);
+    props.updateCardSetRequest(newPageNumber);        
+};
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            cardsPerPage: 12,
-        };
+const handleNextButtonClick = (props, newPageNumber) => {
+    props.updateActivePageNumber(newPageNumber);
+    props.updateCardSetRequest(newPageNumber);        
+    
+    const totalNumberOfPagesInCache = props.cardCache.numberOfPages;
+    if (newPageNumber + 1 === totalNumberOfPagesInCache) {
+        props.updateCacheRequest();
     }
+};
 
-    handleBackButtonClick = (event, newPageNumber) => {
-        this.props.updateActivePageNumber(newPageNumber);
-        this.props.updateCardSetRequest(newPageNumber);        
-    };
-
-    handleNextButtonClick = (event, newPageNumber) => {
-        this.props.updateActivePageNumber(newPageNumber);
-        this.props.updateCardSetRequest(newPageNumber);        
+const Paginator = (props) => {
         
-        let totalNumberOfPagesInCache = this.props.cardCache.numberOfPages;
-        if (newPageNumber + 1 === totalNumberOfPagesInCache) {
-            this.props.updateCacheRequest();
-        }
-    };
+    const { classes } = props;
+    const activePageNumber = props.pageNumbers.activePageNumber;
+    const lastPageNumber = props.pageNumbers.lastPageNumber;
 
-
-    render() {
-        
-        const { classes } = this.props;
-        const activePageNumber = this.props.pageNumbers.activePageNumber;
-        const lastPageNumber = this.props.pageNumbers.lastPageNumber;
-
-        return(
-            <div className={classes.paginatorContainer} id="paginator">
-                <Button color="primary" className={classes.button}
-                    disabled={activePageNumber === 1}
-                    onClick={(e) => this.handleBackButtonClick( e, 
-                            activePageNumber - 1 )} >
-                    BACK
-                </Button>
-                <div>
-                    Page {activePageNumber} of {lastPageNumber}
-                </div>
-                <Button color="primary" className={classes.button}
-                    disabled={activePageNumber === {lastPageNumber}}
-                    onClick={(e) => this.handleNextButtonClick( e, 
-                            activePageNumber + 1 )} >
-                    NEXT
-                </Button>
+    return(
+        <div className={classes.paginatorContainer} id="paginator">
+            <Button color="primary" className={classes.button}
+                disabled={activePageNumber === 1}
+                onClick={() => handleBackButtonClick(props, 
+                        activePageNumber - 1 )} >
+                BACK
+            </Button>
+            <div>
+                Page {activePageNumber} of {lastPageNumber}
             </div>
-        );
-    }
+            <Button color="primary" className={classes.button}
+                disabled={activePageNumber === {lastPageNumber}}
+                onClick={() => handleNextButtonClick(props, 
+                        activePageNumber + 1 )} >
+                NEXT
+            </Button>
+        </div>
+    );
 }
 
 Paginator.propTypes = {
