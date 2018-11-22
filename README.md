@@ -64,7 +64,6 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
     <summary>/api</summary>
     <ul>
         <li>cache.js</li>
-        <li>params.js</li>
     </ul>
 </details>
 
