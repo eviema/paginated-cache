@@ -19,18 +19,13 @@ const styles = theme => ({
     }
 });
 
-const handleBackButtonClick = (props, newPageNumber) => {
-    props.updateActivePageNumber(newPageNumber);
-    props.updateCardSetRequest(newPageNumber);        
-};
-
-const handleNextButtonClick = (props, newPageNumber) => {
+const handleButtonClick = (props, newPageNumber) => {
     
     props.updateActivePageNumber(newPageNumber);
     props.updateCardSetRequest(newPageNumber); 
 
     const pageNumbers = props.cardCache.pageNumbers;
-    if (!pageNumbers.includes(newPageNumber)) {
+    if (!pageNumbers.includes(newPageNumber + 1)) {
         props.updateCacheRequest();
     }
 };
@@ -45,7 +40,7 @@ const Paginator = (props) => {
         <div className={classes.paginatorContainer} id="paginator">
             <Button color="primary" className={classes.button}
                 disabled={activePageNumber === 1}
-                onClick={() => handleBackButtonClick(props, 
+                onClick={() => handleButtonClick(props, 
                         activePageNumber - 1 )} >
                 BACK
             </Button>
@@ -54,7 +49,7 @@ const Paginator = (props) => {
             </div>
             <Button color="primary" className={classes.button}
                 disabled={activePageNumber === lastPageNumber}
-                onClick={() => handleNextButtonClick(props, 
+                onClick={() => handleButtonClick(props, 
                         activePageNumber + 1 )} >
                 NEXT
             </Button>

@@ -2,76 +2,7 @@ import { takeEvery, takeLatest, call,
     fork, put, select} from 'redux-saga/effects';
 import * as actions from '../actions/index';
 import * as api from '../api/cache';
-
-// helper to preprocess card data
-const mapCards = (cards) => {
-    return cards.map(card => {
-        card = {...card.coreData, ...card.serviceData}
-
-        return {
-            state: card.state,
-            number: card.number,
-            application: card.application,
-            assignee: card.assignee,
-            shortDescription: card.shortDescription,
-            made_sla: card.made_sla,
-            upon_reject: card.upon_reject,
-            opened_by: card.opened_by,
-            priority: card.priority,
-            activity_due: card.activity_due,
-            approval: card.approval
-        };
-    });
-}
-
-// worker saga to update active card set
-function* updateCardSet(action) {
-   
-    let newCardSet;
-
-    // get the latest page number user has requested
-    const activePageNumber = action.payload;
-
-    const getCache = (state) => state.cardCache;
-    const currentCache = yield select(getCache);
-    const pageNumbersInCache = currentCache.pageNumbers;
-    const cardCache = currentCache.cache;
-
-    // if page requested is in cache
-    if (pageNumbersInCache.includes(activePageNumber)) {
-        var i;
-        for (i = 0; i < cardCache.length; i++) { 
-            if (cardCache[i].pageNumberInCache === activePageNumber) {
-                newCardSet = cardCache[i].cardsOnPage;
-                i = cardCache.length;
-            }
-        }
-    } 
-    // if page requested not in cache
-    // fetch new active card set via an api call
-    else {
-        // calculate the params (i.e. page, perPage) needed for api call
-        const nextApiCallParams = {
-            page: activePageNumber - 1,
-            perPage: 12,
-        };
-        // fetch that page
-        const pageRequstedAndNotInCacheYet = yield call(
-            api.getNextCache, 
-            nextApiCallParams
-        ); 
-        // preprocess data
-        newCardSet = mapCards(pageRequstedAndNotInCacheYet.data);          
-    }
-
-    yield put(actions.updateCardSetSuccess(newCardSet));
-
-}
-
-// watcher saga for action UPDATE_CARD_SET_REQUEST
-function* watchUpdateCardSet(){ 
-    yield takeLatest(actions.Types.UPDATE_CARD_SET_REQUEST, updateCardSet);
-}
+import mapCards from './helper';
 
 // worker saga to update current cache
 // when user clicks to go to a page that is not in current cache
@@ -85,7 +16,7 @@ function* updateCache(){
         // calculate params for api call
         // fetch 8 pages on each subsequent request   
         
-        const pageNumberRequestedInEndpoint = Math.ceil(activePageNumber / 8) - 1;
+        const pageNumberRequestedInEndpoint = Math.ceil((activePageNumber + 1)/ 8) - 1;
         
         let nextApiCallParams, numbersOfPagesToMap; 
         // if page requested is between 5 and 8
@@ -176,7 +107,6 @@ function* watchInitCache(){
 }
 
 const cacheSagas = [
-    fork(watchUpdateCardSet),
     fork(watchUpdateCache),
     fork(watchInitCache),
 ];

@@ -82,10 +82,12 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
                 <summary>/__tests__</summary>
                 <ul>
                     <li>SingleCard.test.js</li>
+                    <li>Loading.test.js</li>
                 </ul>
             </details>
         </li>
         <li>SingleCard.js</li>
+        <li>Loading.js</li>
     </ul>    
 </details>
 
@@ -99,7 +101,6 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
                     <li>App.test.js</li>
                     <li>CardDrawer.test.js</li>
                     <li>CardSet.test.js</li>
-                    <li>Loading.test.js</li>
                     <li>Paginator.test.js</li>
                 </ul>
             </details>
@@ -107,7 +108,6 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
         <li>App.js</li>
         <li>CardDrawer.js</li>
         <li>CardSet.js</li>
-        <li>Loading.js</li>
         <li>Paginator.js</li>
     </ul>    
 </details>

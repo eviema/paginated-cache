@@ -2,7 +2,7 @@ import { Types } from '../actions/index';
 
 const INITIAL_STATE = {
     cache: [],
-    pageNumbers: 0,
+    pageNumbers: [],
     error: ''
 };
 

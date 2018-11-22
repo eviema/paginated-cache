@@ -8,7 +8,7 @@ import CardDrawer from './CardDrawer';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { fetchInitCacheRequest } from '../actions/index';
-import Loading from './Loading';
+import Loading from '../components/Loading';
 
 const styles = theme => ({
     root: {
@@ -34,11 +34,11 @@ class App extends Component {
     render() {
 
         const { classes, activeCard, activeCardSet, loading } = this.props;
-        const totalNumberOfPagesInCache = this.props.cardCache.numberOfPages;
+        const pageNumbersInCache = this.props.cardCache.pageNumbers;
         const activePageNumber = this.props.pageNumbers.activePageNumber;
 
-        const isTimeToRenderLoading = (loading && activePageNumber <= 1) || 
-            (loading && activePageNumber - 1 === totalNumberOfPagesInCache);
+        const isTimeToRenderLoading = (loading && activePageNumber < 1) || 
+            (loading && !pageNumbersInCache.includes(activePageNumber));
         
         let isTimeToRenderCardSet = false;
         if ( activeCardSet !== undefined ) {
@@ -52,7 +52,7 @@ class App extends Component {
             <Paper className={classes.root} id="paper" elevation={1}>
                 { isTimeToRenderLoading && <Loading /> }                 
                 { isTimeToRenderCardSet && <CardSet /> }
-                { !isTimeToRenderLoading && <Paginator /> }  
+                <Paginator /> 
                 {!!activeCard && <CardDrawer />}
             </Paper>
         );
