@@ -3,22 +3,11 @@ import { takeEvery, call,
 import * as actions from '../actions/index';
 import * as api from '../api/cache';
 
+// helper to preprocess card data
+const mapCards = (cards) => {
+    return cards.map(card => {
+        card = {...card.coreData, ...card.serviceData}
 
-// worker saga to update active card set
-function* updateCardSet(action) {
-
-    const newPageNumber = action.payload;
-
-    const getCache = (state) => state.cardCache;
-    const currentCache = yield select(getCache);
-
-    let newCardSet = currentCache.cache.slice(
-        (newPageNumber - 1 ) * 12, 
-        newPageNumber * 12
-    );
-
-    newCardSet = newCardSet.map(card => {
-                
         return {
             state: card.state,
             number: card.number,
@@ -33,6 +22,20 @@ function* updateCardSet(action) {
             approval: card.approval
         };
     });
+}
+
+// worker saga to update active card set
+function* updateCardSet(action) {
+
+    const newPageNumber = action.payload;
+
+    const getCache = (state) => state.cardCache;
+    const currentCache = yield select(getCache);
+
+    const newCardSet = currentCache.cache.slice(
+        (newPageNumber - 1 ) * 12, 
+        newPageNumber * 12
+    );
 
     yield put(actions.updateCardSetSuccess(newCardSet));
 
@@ -69,25 +72,7 @@ function* updateCache(){
             nextCacheToMergePart1.data.concat(
             nextCacheToMergePart2.data
         );
-        const nextCacheToMerge = nextCacheToMergePending.map(card => {
-            
-            const coreData = card.coreData,
-                serviceData = card.serviceData;
-
-                return {
-                    state: coreData.state,
-                    number: coreData.number,
-                    application: coreData.application,
-                    assignee: coreData.assignee,
-                    shortDescription: coreData.shortDescription,
-                    made_sla: serviceData.made_sla,
-                    upon_reject: serviceData.upon_reject,
-                    opened_by: serviceData.opened_by,
-                    priority: serviceData.priority,
-                    activity_due: serviceData.activity_due,
-                    approval: serviceData.approval
-                };
-        });
+        const nextCacheToMerge = mapCards(nextCacheToMergePending);
         
         yield put(actions.updateCacheSuccess(nextCacheToMerge));
         yield put(actions.updateCardSetRequest(activePageNumber));
@@ -112,24 +97,7 @@ function* fetchInitCache(){
         const initCacheResponse = yield call(api.getInitCache);
         let initCache = initCacheResponse.data;
         
-        initCache = initCache.map(card => {
-            const coreData = card.coreData,
-                  serviceData = card.serviceData;
-
-            return {
-                state: coreData.state,
-                number: coreData.number,
-                application: coreData.application,
-                assignee: coreData.assignee,
-                shortDescription: coreData.shortDescription,
-                made_sla: serviceData.made_sla,
-                upon_reject: serviceData.upon_reject,
-                opened_by: serviceData.opened_by,
-                priority: serviceData.priority,
-                activity_due: serviceData.activity_due,
-                approval: serviceData.approval
-            };
-        });
+        initCache = mapCards(initCache);
 
         const initCardSet = initCache.slice(0, 12);
         yield put(actions.fetchInitCacheSuccess(initCache, initCardSet));
