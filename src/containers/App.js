@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
+import Loading from '../components/Loading';
 import CardSet from './CardSet';
 import Paginator from './Paginator';
 import CardDrawer from './CardDrawer';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import ErrorPage from './ErrorPage';
 import { fetchInitCacheRequest } from '../actions/index';
-import Loading from '../components/Loading';
+
 
 const styles = theme => ({
     root: {
@@ -27,18 +29,24 @@ class App extends Component {
 
     componentDidMount() {
         
-        if (this.props.cardCache.cache.length === 0)
+        const { cardCache } = this.props;
+        if (cardCache.cache.length === 0 &&
+            !cardCache.error)
             this.props.fetchInitCacheRequest();         
     }
 
     render() {
 
-        const { classes, activeCard, activeCardSet, loading } = this.props;
-        const pageNumbersInCache = this.props.cardCache.pageNumbers;
+        const { classes, activeCard, activeCardSet, loading, cardCache } = this.props;
+        const pageNumbersInCache = cardCache.pageNumbers;
+        const errorMessage = cardCache.error;
         const activePageNumber = this.props.pageNumbers.activePageNumber;
 
-        const isTimeToRenderLoading = (loading && activePageNumber < 1) || 
-            (loading && !pageNumbersInCache.includes(activePageNumber));
+        const isTimeToRenderLoading = 
+            (
+                (loading && activePageNumber < 1) || 
+                (loading && !pageNumbersInCache.includes(activePageNumber))
+            ) && !errorMessage;
         
         let isTimeToRenderCardSet = false;
         if ( activeCardSet !== undefined ) {
@@ -52,8 +60,9 @@ class App extends Component {
             <Paper className={classes.root} id="paper" elevation={1}>
                 { isTimeToRenderLoading && <Loading /> }                 
                 { isTimeToRenderCardSet && <CardSet /> }
-                <Paginator /> 
-                {!!activeCard && <CardDrawer />}
+                { !errorMessage && <Paginator /> } 
+                { !!activeCard && <CardDrawer /> }
+                { !!errorMessage && <ErrorPage error={errorMessage} /> }
             </Paper>
         );
     }

@@ -1,5 +1,5 @@
 // helper to preprocess card data
-const mapCards = (cards) => {
+export default (cards) => {
     return cards.map(card => {
         card = {...card.coreData, ...card.serviceData}
 
@@ -18,5 +18,3 @@ const mapCards = (cards) => {
         };
     });
 }
-
-export default mapCards;
