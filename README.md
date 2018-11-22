@@ -71,6 +71,7 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
     <summary>/assets</summary>
     <ul>
         <li>loading_spinner.gif</li>
+        <li>cloud_off.png</li>
     </ul>
 </details>
 
@@ -108,6 +109,7 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
         <li>App.js</li>
         <li>CardDrawer.js</li>
         <li>CardSet.js</li>
+        <li>ErrorPage.js</li>
         <li>Paginator.js</li>
     </ul>    
 </details>
@@ -140,7 +142,9 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
     <summary>/sagas</summary>
     <ul>
         <li>index.js</li>
+        <li>helper.js</li>
         <li>sagas_cache.js</li>
+        <li>sagas_card_set.js</li>
     </ul>
 </details>   
 
