@@ -43,7 +43,7 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 - Redux Saga
 - Enzyme + Jest
 
-## /src structure
+## /src structure *UPDATED*
 
 <details>
     <summary>/actions</summary>
@@ -152,14 +152,14 @@ index.js
 Root.js   
 setupTests.js   
 
-## Data fetching and caching
+## Data fetching and caching *UPDATED*
 
 ![Diagram of fetching and caching on initial load](./init_fetch_cache.png)
 ![Diagram of fetching and caching on subsequent requests](./update_fetch_cache.png)
 
 #### Caching algorithm
 
-<span style="color:red">*Update:*</span>  
+***Update:***  
 Card cache core structure:
 ```
 [
@@ -200,14 +200,14 @@ Fetching data occurs right before caching takes place.
 
 On initial load, an action creator will be called to initialise cache. A watcher saga intercepts the action returned, and a paird worker saga fetches 4 pages of cards (i.e. 48 cards) via an API call. The API call uses `axios` with configured parameters (e.g. page = 0, perPage = 48). After the response is received, the actual data inside will be extracted, processed and passed to another action creator for initial caching. 
 
-<span style="color:red">*Update:*</span> 
+***Update:*** 
 
 For each subsequent caching request, 8 pages of cards (i.e. 96 cards) are fetched in the worker saga via one API call, with configured parameters. The parameters are determined given the page number requested by user and an artificial rule that data in endpoint is split as 96 cards per page. In the API call, the group of 96 cards where the page requested falls in is retrieved. Then relevant card data in the response will be extracted, processed and passed to another action creator for a cache update.
  
 
-## Total time taken to build the app
+## Total time taken to build the app *UPDATED*
 
-<span style="color:red">*Update:*</span> 4 more hours spent on modifying fetching and caching algorithms and related code
+***Update:*** 4 more hours spent on modifying fetching and caching algorithms and related code
 
 34 hours, including:
 - 2 hours on initial analysis and design,
