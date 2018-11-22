@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
@@ -18,29 +18,26 @@ const styles = {
   },
 };
 
-class CardSet extends Component { 
+const CardSet = (props) => { 
 
-  render() {
+  const { classes } = props;
 
-    const { classes } = this.props;
-
-    const renderActiveCardSet = this.props.activeCardSet.map(card => {
-      return (
-        <Grid item xs={3} key={!!card && card.number}
-            onClick={() => this.props.toggleCard(card, true)}>
-          {!!card && <SingleCard cardData={card} />}
-        </Grid>
-      );
-    });
-
-
-
+  const renderActiveCardSet = props.activeCardSet.map(card => {
     return (
-      <div className={classes.container} id="card-set">
-        <Grid container spacing={8} children={ renderActiveCardSet } /> 
-      </div>
+      <Grid item xs={3} key={!!card && card.number}
+          onClick={() => props.toggleCard(card, true)}>
+        {!!card && <SingleCard cardData={card} />}
+      </Grid>
     );
-  }
+  });
+
+
+
+  return (
+    <div className={classes.container} id="card-set">
+      <Grid container spacing={8} children={ renderActiveCardSet } /> 
+    </div>
+  );
 }
 
 CardSet.propTypes = {

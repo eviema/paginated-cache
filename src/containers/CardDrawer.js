@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -28,66 +28,64 @@ const styles = {
     },
 };
 
-class CardDrawer extends Component {
+function toggleDrawer(props) {  
+    props.toggleCard({
+        card: {},
+        isSelected: false
+    })
+};
 
-    toggleDrawer = () => {  
-        this.props.toggleCard({
-            card: {},
-            isSelected: false
-        })
-    };
+const CardDrawer = (props) => {
 
-    render() {
-
-        window.__MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__ = true;
+    window.__MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__ = true;
         
-        const { classes, activeCard } = this.props;
+    const { classes, activeCard } = props;
 
-        if (!activeCard.isSelected) {
-            return <div></div>;
-        }
-        
-        const cardDetailRows = Object.keys(activeCard.card).map(key => {
-            return { [key]: activeCard.card[key]};
-        })
-
-        const cardDetails = cardDetailRows.map(row => {
-            const key = Object.keys(row)[0];
-            const value = row[key];
-
-            return (
-                <TableRow key={key}>
-                    <TableCell component="th" scope="row">{key}</TableCell>
-                    <TableCell>{value}</TableCell>
-                </TableRow>
-            );
-        });
-        
-        return (
-            <div>
-                <Drawer anchor="right" id="drawer"
-                        open={this.props.activeCard.isSelected} 
-                        onClose={this.toggleDrawer}>
-                    <div className={classes.drawerHeader}>
-                        <IconButton onClick={this.toggleDrawer}>
-                            <CancelIcon />
-                        </IconButton>
-                    </div>
-                    <div
-                        tabIndex={0} role="button"
-                        onClick={this.toggleDrawer}
-                        onKeyDown={this.toggleDrawer}>
-                        <Typography variant="h6" className={classes.heading}>
-                            {activeCard.card.number}
-                        </Typography>
-                        <Table className={classes.table}>
-                            <TableBody>{cardDetails}</TableBody>
-                        </Table>
-                    </div>
-                </Drawer>
-            </div>
-        );
+    if (!activeCard.isSelected) {
+        return <div></div>;
     }
+    
+    const cardDetailRows = Object.keys(activeCard.card).map(key => {
+        return { [key]: activeCard.card[key]};
+    })
+
+    const cardDetails = cardDetailRows.map(row => {
+        const key = Object.keys(row)[0];
+        const value = row[key];
+
+        return (
+            <TableRow key={key}>
+                <TableCell component="th" scope="row">{key}</TableCell>
+                <TableCell>{value}</TableCell>
+            </TableRow>
+        );
+    });       
+        
+    return (
+        <div>
+            <Drawer anchor="right" id="drawer"
+                    open={props.activeCard.isSelected} 
+                    onClose={() => toggleDrawer(props)}>
+                <div className={classes.drawerHeader}>
+                    <IconButton onClick={() => toggleDrawer(props)}>
+                        <CancelIcon />
+                    </IconButton>
+                </div>
+                <div
+                    tabIndex={0} role="button"
+                    onClick={() => toggleDrawer(props)}
+                    onKeyDown={() => toggleDrawer(props)}>
+                    <Typography variant="h6" className={classes.heading}>
+                        {activeCard.card.number}
+                    </Typography>
+                    <Table className={classes.table}>
+                        <TableBody>{cardDetails}</TableBody>
+                    </Table>
+                </div>
+            </Drawer>
+        </div>
+    );
+
 }
 
 CardDrawer.propTypes = {

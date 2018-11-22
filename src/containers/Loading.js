@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux'
 import img from '../assets/loading_spinner.gif'
 
-function Loading(props) {
+const Loading = (props) => {
     const loading = props.loading;
     const activePageNumber = props.pageNumbers.activePageNumber;
     const totalNumberOfPagesInCache = props.cardCache.numberOfPages;

@@ -31,7 +31,7 @@ const styles = {
   }
 };
 
-function SingleCard(props) {
+const SingleCard = (props) => {
 
   const { classes, cardData } = props;
 
