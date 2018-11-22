@@ -159,6 +159,33 @@ setupTests.js
 
 #### Caching algorithm
 
+<span style="color:red">*Update:*</span>  
+Card cache core structure:
+```
+[
+    {
+        pageNumberInCache: 1,
+        cardsOnPage: [
+            {card 1},
+            {card 2},
+            ...
+            {card 12}
+        ]
+    },
+    {
+        pageNumberInCache: 2,
+        cardsOnPage: [
+            {card 1},
+            {card 2},
+            ...
+            {card 12}
+        ]
+    },
+    ...
+]
+```
+---
+
 Caching occurs when the app initially loads or when a user clicks to go to the second last page in current cache.
 
 In both cases, an action creator will be called to request caching. The action returned will be intercepted by a watcher saga, and the paired worker saga will process the request and fetch a new set of cards. 
@@ -173,9 +200,14 @@ Fetching data occurs right before caching takes place.
 
 On initial load, an action creator will be called to initialise cache. A watcher saga intercepts the action returned, and a paird worker saga fetches 4 pages of cards (i.e. 48 cards) via an API call. The API call uses `axios` with configured parameters (e.g. page = 0, perPage = 48). After the response is received, the actual data inside will be extracted, processed and passed to another action creator for initial caching. 
 
-For each subsequent caching request, 8 pages of cards are fetched in the worker saga via two API calls, with configured parameters (e.g. page = 1, perPage = 48; page = 2, perPage = 48). Relevant card data in the response will then be extracted, processed and passed to another action creator for a cache update. 
+<span style="color:red">*Update:*</span> 
+
+For each subsequent caching request, 8 pages of cards (i.e. 96 cards) are fetched in the worker saga via one API call, with configured parameters. The parameters are determined given the page number requested by user and an artificial rule that data in endpoint is split as 96 cards per page. In the API call, the group of 96 cards where the page requested falls in is retrieved. Then relevant card data in the response will be extracted, processed and passed to another action creator for a cache update.
+ 
 
 ## Total time taken to build the app
+
+<span style="color:red">*Update:*</span> 4 more hours spent on modifying fetching and caching algorithms and related code
 
 34 hours, including:
 - 2 hours on initial analysis and design,
