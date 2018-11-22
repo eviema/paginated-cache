@@ -2,7 +2,7 @@ import { Types } from '../actions/index';
 
 const INITIAL_STATE = {
     cache: [],
-    numberOfPages: 0,
+    pageNumbers: 0,
     error: ''
 };
 
@@ -17,12 +17,14 @@ export default (state = INITIAL_STATE, action) => {
         case Types.FETCH_INIT_CACHE_SUCCESS: {
             
             const initCache = action.payload.initCache;
-            const numberOfPages = Math.ceil(initCache.length / 12);
-            
+            const pageNumbers = initCache.map(page => {
+                return page.pageNumberInCache
+            });
+
             return { 
                 ...state, 
                 cache: initCache, 
-                numberOfPages: numberOfPages,
+                pageNumbers,
             };  
         }
         case Types.UPDATE_CACHE_REQUEST: {
@@ -32,14 +34,16 @@ export default (state = INITIAL_STATE, action) => {
         }
         case Types.UPDATE_CACHE_SUCCESS: {
             
-            const nextCacheToMerge = action.payload;
-            const newCache = [...state.cache, ...nextCacheToMerge];
-            const numberOfPages = Math.ceil(newCache.length / 12);
-            
+            const cacheToMerge = action.payload;
+            const newCache = [...state.cache, ...cacheToMerge];
+            const pageNumbers = newCache.map(page => {
+                return page.pageNumberInCache
+            });
+
             return { 
                 ...state, 
                 cache: newCache, 
-                numberOfPages: numberOfPages,
+                pageNumbers
             };  
         }
         case Types.INFORM_CACHING_ERROR: {

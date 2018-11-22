@@ -1,23 +1,28 @@
 import axios from 'axios';
 
-let pageNumber = 0,
-    requestParams = {
+let requestParams = {
         ticketType: 'incident',
         sortDirection: 'DESC',
-        page: pageNumber,
-        perPage: 48
+        page: 0,
+        perPage: 0
     };
 
 export const getInitCache = () => {
 
+    requestParams ={
+        ...requestParams,
+        perPage: 48
+    }
     return axios.get('/tickets', {
         params: requestParams
     });
 };
 
-export function getNextCache(currentCacheLength) {
-
-    pageNumber = currentCacheLength / 48;
+export function getNextCache({ page, perPage }) {
+    requestParams ={
+        ...requestParams,
+        page, perPage
+    }
     return axios.get('/tickets', {
         params: requestParams
     });

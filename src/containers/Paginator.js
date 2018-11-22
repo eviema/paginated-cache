@@ -25,11 +25,12 @@ const handleBackButtonClick = (props, newPageNumber) => {
 };
 
 const handleNextButtonClick = (props, newPageNumber) => {
-    props.updateActivePageNumber(newPageNumber);
-    props.updateCardSetRequest(newPageNumber);        
     
-    const totalNumberOfPagesInCache = props.cardCache.numberOfPages;
-    if (newPageNumber + 1 === totalNumberOfPagesInCache) {
+    props.updateActivePageNumber(newPageNumber);
+    props.updateCardSetRequest(newPageNumber); 
+
+    const pageNumbers = props.cardCache.pageNumbers;
+    if (!pageNumbers.includes(newPageNumber)) {
         props.updateCacheRequest();
     }
 };
@@ -52,7 +53,7 @@ const Paginator = (props) => {
                 Page {activePageNumber} of {lastPageNumber}
             </div>
             <Button color="primary" className={classes.button}
-                disabled={activePageNumber === {lastPageNumber}}
+                disabled={activePageNumber === lastPageNumber}
                 onClick={() => handleNextButtonClick(props, 
                         activePageNumber + 1 )} >
                 NEXT

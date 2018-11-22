@@ -70,11 +70,11 @@ export function updateCacheRequest() {
     }
 };
 
-export function updateCacheSuccess(nextCacheToMerge) {
+export function updateCacheSuccess(cacheToMerge) {
 
     return {
         type: Types.UPDATE_CACHE_SUCCESS,
-        payload: nextCacheToMerge
+        payload: cacheToMerge
     };
 };
 

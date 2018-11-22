@@ -1,4 +1,4 @@
-import { takeEvery, call, 
+import { takeEvery, takeLatest, call, 
     fork, put, select} from 'redux-saga/effects';
 import * as actions from '../actions/index';
 import * as api from '../api/cache';
@@ -26,16 +26,43 @@ const mapCards = (cards) => {
 
 // worker saga to update active card set
 function* updateCardSet(action) {
+   
+    let newCardSet;
 
-    const newPageNumber = action.payload;
+    // get the latest page number user has requested
+    const activePageNumber = action.payload;
 
     const getCache = (state) => state.cardCache;
     const currentCache = yield select(getCache);
+    const pageNumbersInCache = currentCache.pageNumbers;
+    const cardCache = currentCache.cache;
 
-    const newCardSet = currentCache.cache.slice(
-        (newPageNumber - 1 ) * 12, 
-        newPageNumber * 12
-    );
+    // if page requested is in cache
+    if (pageNumbersInCache.includes(activePageNumber)) {
+        var i;
+        for (i = 0; i < cardCache.length; i++) { 
+            if (cardCache[i].pageNumberInCache === activePageNumber) {
+                newCardSet = cardCache[i].cardsOnPage;
+                i = cardCache.length;
+            }
+        }
+    } 
+    // if page requested not in cache
+    // fetch new active card set via an api call
+    else {
+        // calculate the params (i.e. page, perPage) needed for api call
+        const nextApiCallParams = {
+            page: activePageNumber - 1,
+            perPage: 12,
+        };
+        // fetch that page
+        const pageRequstedAndNotInCacheYet = yield call(
+            api.getNextCache, 
+            nextApiCallParams
+        ); 
+        // preprocess data
+        newCardSet = mapCards(pageRequstedAndNotInCacheYet.data);          
+    }
 
     yield put(actions.updateCardSetSuccess(newCardSet));
 
@@ -43,51 +70,72 @@ function* updateCardSet(action) {
 
 // watcher saga for action UPDATE_CARD_SET_REQUEST
 function* watchUpdateCardSet(){ 
-    yield takeEvery(actions.Types.UPDATE_CARD_SET_REQUEST, updateCardSet);
+    yield takeLatest(actions.Types.UPDATE_CARD_SET_REQUEST, updateCardSet);
 }
 
 // worker saga to update current cache
+// when user clicks to go to a page that is not in current cache
 function* updateCache(){
 
-    const getCache = (state) => state.cardCache;
-    const currentCache = yield select(getCache);
-    const currentCacheLength = currentCache.cache.lenth;
+    try {
+        // get the latest page number requested
+        const getActivePageNumber = (state) => state.pageNumbers.activePageNumber;
+        const activePageNumber = yield select(getActivePageNumber);
 
-    const getActivePageNumber = (state) => state.pageNumbers.activePageNumber;
-    const activePageNumber = yield select(getActivePageNumber);
+        // calculate params for api call
+        // fetch 8 pages on each subsequent request   
+        
+        const pageNumberRequestedInEndpoint = Math.ceil(activePageNumber / 8) - 1;
+        
+        let nextApiCallParams, numbersOfPagesToMap; 
+        // if page requested is between 5 and 8
+        if (pageNumberRequestedInEndpoint === 0) {
+            nextApiCallParams = {
+                page: 1,
+                perPage: 48, 
+            };
+            numbersOfPagesToMap = Array.from(new Array(4), (x,i) => i + 4);
+        } else {
+            nextApiCallParams = {
+                page: pageNumberRequestedInEndpoint,
+                perPage: 96, 
+            };
+            numbersOfPagesToMap = [...Array(8).keys()];
+        }
 
-    try {        
-        // fetch next cache consisting of two parts, 
-        // given 8 more pages to load
-        const nextCacheToMergePart1 = yield call(
+        // fetch new cache to add
+        const dataFetched = yield call(
             api.getNextCache, 
-            currentCacheLength
+            nextApiCallParams
         ); 
-        const nextCacheToMergePart2 = yield call(
-            api.getNextCache, 
-            currentCacheLength + 48
-        );
+
+        // preprocess data
+        const dataPreprocessed = mapCards(dataFetched.data);
+
+        // add page numbers to data
+        const cacheToMerge = numbersOfPagesToMap.map(page => {
+            const pageNumberInCache = pageNumberRequestedInEndpoint * 8 + page + 1;
+            
+            const cardStartIndex = numbersOfPagesToMap.length === 4 ? (page - 4) * 12: page * 12;
+            const cardEndIndex = numbersOfPagesToMap.length === 4 ? (page - 3) * 12: (page + 1) * 12; 
+            
+            const cardsOnPage = dataPreprocessed.slice(cardStartIndex, cardEndIndex);
+            return {  pageNumberInCache, cardsOnPage };
+        });
         
-        const nextCacheToMergePending = 
-            nextCacheToMergePart1.data.concat(
-            nextCacheToMergePart2.data
-        );
-        const nextCacheToMerge = mapCards(nextCacheToMergePending);
-        
-        yield put(actions.updateCacheSuccess(nextCacheToMerge));
-        yield put(actions.updateCardSetRequest(activePageNumber));
-    } 
-    catch (e) {
+        // update current cache
+        yield put(actions.updateCacheSuccess(cacheToMerge));
+    } catch (error) {
         yield put(actions.informCachingError({
             error: 'An error occurred when trying to update the cache.'
         }));
-    }   
-
+    }
+   
 }
 
 // watcher saga for action UPDATE_CACHE_REQUEST
 function* watchUpdateCache(){ 
-    yield takeEvery(actions.Types.UPDATE_CACHE_REQUEST, updateCache);
+    yield takeLatest(actions.Types.UPDATE_CACHE_REQUEST, updateCache);
 }
 
 // worker saga to fetch initial cache
@@ -99,7 +147,13 @@ function* fetchInitCache(){
         
         initCache = mapCards(initCache);
 
-        const initCardSet = initCache.slice(0, 12);
+        initCache = [...Array(4).keys()].map(page => {
+            const pageNumberInCache = page + 1;
+            const cardsOnPage = initCache.slice(page * 12, (page + 1) * 12);
+            return {  pageNumberInCache, cardsOnPage };
+        });
+
+        const initCardSet = initCache[0].cardsOnPage;
         yield put(actions.fetchInitCacheSuccess(initCache, initCardSet));
         
         const totalCountOfCardsInEndpoint = initCacheResponse.headers["x-total-count"];
